@@ -37,14 +37,8 @@
         /// Initializes a new instance of <see cref="AnalyzeCodeRequestDto"/>.
         /// </summary>
         /// <param name="code">The code to analyze.</param>
-        /// <exception cref="ArgumentNullException">Thrown if code is null or empty.</exception>
-        /// <exception cref="ArgumentException">Thrown if the code exceeds the maximum allowed length.</exception>
         public AnalyzeCodeRequestDto(string code)
         {
-            if (string.IsNullOrEmpty(code))
-                throw new ArgumentNullException(nameof(code));
-            if (code.Length > maxCodeLength)
-                throw new ArgumentException($"Code is too long, maximum allowed length is {maxCodeLength}.");
             Code = code;
         }
     }
@@ -101,19 +95,8 @@
         /// <param name="message">A description of the issue.</param>
         /// <param name="code">The identifier of the issue.</param>
         /// <param name="type">The severity of the issue.</param>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown if line is less than 1.</exception>
-        /// <exception cref="ArgumentNullException">Thrown if message or code is null or whitespace.</exception>
-        /// <exception cref="ArgumentException">Thrown if the error type is not a defined value.</exception>
         public CodeErrorDto(int line, string message, string code, ErrorType type)
         {
-            if (line < 1)
-                throw new ArgumentOutOfRangeException(nameof(line), "Line number must be greater than 0");
-            if (string.IsNullOrWhiteSpace(message))
-                throw new ArgumentNullException(nameof(message));
-            if (string.IsNullOrWhiteSpace(code))
-                throw new ArgumentNullException(nameof(code), "Code cannot be empty.");
-            if (!Enum.IsDefined(typeof(ErrorType), type))
-                throw new ArgumentException("Type has to be valid", nameof(type));
             Line = line;
             Message = message;
             Code = code;
