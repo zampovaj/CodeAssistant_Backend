@@ -1,10 +1,7 @@
 ﻿using CodeAssistant.API.DTOs;
 using CodeAssistant.API.Mappers;
-using CodeAssistant.Application.Interfaces;
 using CodeAssistant.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace CodeAssistant.API.Controllers
 {
