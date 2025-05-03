@@ -27,7 +27,7 @@ namespace CodeAssistant.API.Mappers
         /// </summary>
         /// <param name="errors">A list of <see cref="CodeError"/> objects representing the errors found in the code snippet.</param>
         /// <returns>A <see cref="AnalyzeCodeResponseDto"/> containing a list of <see cref="CodeErrorDto"/> for each error found.</returns>
-        public static AnalyzeCodeResponseDto ToDto(List<CodeError> errors)
+        public static AnalyzeCodeResponseDto ToDto(IReadOnlyCollection<CodeError> errors)
         {
             return new AnalyzeCodeResponseDto(errors.Select(e => new CodeErrorDto(e.Line, e.Message, e.Code, (DTOs.ErrorType)e.Type)).ToList());
         }
