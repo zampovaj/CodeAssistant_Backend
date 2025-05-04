@@ -14,7 +14,7 @@
     <Folder Include="API\Controllers\" />
     <Folder Include="Application\UseCases\" />
     <Folder Include="Domain\Interfaces\" />
-    <Folder Include="Infrastructure\" />
+    <Folder Include="Infrastructure\Services\" />
   </ItemGroup>
 
 </Project>
