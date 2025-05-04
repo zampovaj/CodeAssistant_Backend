@@ -7,7 +7,7 @@ namespace CodeAssistant.Infrastructure.Mock
     {
         public IReadOnlyCollection<CodeError> Analyze(CodeSnippet codeSnippet)
         {
-            return new List<CodeError>() { new CodeError(1, "message", "A205", ErrorType.Warning) };
+            return new List<CodeError>() { new CodeError(1, codeSnippet.Code, "A205", ErrorType.Warning) };
         }
     }
 }
