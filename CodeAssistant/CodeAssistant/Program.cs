@@ -1,9 +1,13 @@
+
+using CodeAssistant.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
 
 // Add CORS policy
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -18,6 +22,7 @@ builder.Services.AddCors(options =>
 // Swagger/OpenAPI config
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddInfrastructure();
 
 var app = builder.Build();
 
