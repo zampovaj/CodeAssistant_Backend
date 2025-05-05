@@ -7,20 +7,20 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy only the .csproj first to leverage layer caching
-COPY ["CodeAssistant/CodeAssistant/CodeAssistant.csproj", "CodeAssistant/CodeAssistant/"]
-RUN dotnet restore "CodeAssistant/CodeAssistant/CodeAssistant.csproj"
+# Copy the .csproj file first to leverage Docker layer caching
+COPY CodeAssistant/CodeAssistant/CodeAssistant.csproj CodeAssistant/CodeAssistant/
+RUN dotnet restore CodeAssistant/CodeAssistant/CodeAssistant.csproj
 
-# Now copy everything else
+# Copy the rest of the source code
 COPY . .
 
-# Set working directory to the project folder
-WORKDIR "/src/CodeAssistant/CodeAssistant"
-RUN dotnet build "CodeAssistant.csproj" -c Release -o /app/build
+# Set working directory to the project folder and build
+WORKDIR /src/CodeAssistant/CodeAssistant
+RUN dotnet build -c Release -o /app/build
 
 # Publish stage
 FROM build AS publish
-RUN dotnet publish "CodeAssistant.csproj" -c Release -o /app/publish --no-restore
+RUN dotnet publish -c Release -o /app/publish --no-restore
 
 # Final runtime image
 FROM base AS final
