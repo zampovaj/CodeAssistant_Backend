@@ -7,7 +7,7 @@ COPY CodeAssistant/CodeAssistant.sln ./
 COPY CodeAssistant/CodeAssistant/CodeAssistant.csproj CodeAssistant/CodeAssistant/
 
 # Restore dependencies
-RUN dotnet restore CodeAssistant/CodeAssistant.csproj
+RUN dotnet restore CodeAssistant/CodeAssistant/CodeAssistant.csproj
 
 # Copy everything else
 COPY CodeAssistant/ ./CodeAssistant/
