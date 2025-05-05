@@ -1,28 +1,21 @@
-# Stage 1: Build
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+# Use the official .NET SDK image for building the app
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy the solution and project files
+# Copy the entire solution and restore dependencies
 COPY CodeAssistant/CodeAssistant.sln ./
-COPY CodeAssistant/CodeAssistant/CodeAssistant.csproj CodeAssistant/CodeAssistant/
+COPY CodeAssistant/CodeAssistant/*.csproj ./CodeAssistant/
+COPY CodeAssistant/CodeAssistant/ ./CodeAssistant/
 
-# Restore dependencies
-RUN dotnet restore CodeAssistant/CodeAssistant/CodeAssistant.csproj
+WORKDIR /src/CodeAssistant
+RUN dotnet restore
 
-# Copy everything else
-COPY CodeAssistant/ ./CodeAssistant/
+# Build the app
+RUN dotnet publish -c Release -o /app/publish
 
-# Build
-WORKDIR /src/CodeAssistant/CodeAssistant
-RUN dotnet build -c Release -o /app/build
-
-# Stage 2: Publish
-FROM build AS publish
-RUN dotnet publish -c Release -o /app/publish --no-restore
-
-# Stage 3: Runtime
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
+# Use a runtime image for the final container
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app/publish .
 
 ENTRYPOINT ["dotnet", "CodeAssistant.dll"]
