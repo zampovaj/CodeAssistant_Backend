@@ -1,30 +1,19 @@
-# Base image for runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
 
-# Build stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-
-# Copy the .csproj file first to leverage Docker layer caching
-COPY CodeAssistant/CodeAssistant/CodeAssistant.csproj CodeAssistant/CodeAssistant/
-RUN dotnet restore CodeAssistant/CodeAssistant/CodeAssistant.csproj
-
-# Copy the rest of the source code
+COPY ["CodeAssistant/CodeAssistant.csproj", "CodeAssistant/"]
+RUN dotnet restore "CodeAssistant/CodeAssistant.csproj"
 COPY . .
+WORKDIR "/src/CodeAssistant"
+RUN dotnet build "CodeAssistant.csproj" -c Release -o /app/build
 
-# Set working directory to the project folder and build
-WORKDIR /src/CodeAssistant/CodeAssistant
-RUN dotnet build -c Release -o /app/build
-
-# Publish stage
 FROM build AS publish
-RUN dotnet publish -c Release -o /app/publish --no-restore
+RUN dotnet publish "CodeAssistant.csproj" -c Release -o /app/publish
 
-# Final runtime image
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-
 ENTRYPOINT ["dotnet", "CodeAssistant.dll"]
