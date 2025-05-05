@@ -1,19 +1,28 @@
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-WORKDIR /app
-EXPOSE 80
-
+# Stage 1: Build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["CodeAssistant/CodeAssistant.csproj", "CodeAssistant/"]
-RUN dotnet restore "CodeAssistant/CodeAssistant.csproj"
-COPY . .
-WORKDIR "/src/CodeAssistant"
-RUN dotnet build "CodeAssistant.csproj" -c Release -o /app/build
 
+# Copy the solution and project files
+COPY CodeAssistant/CodeAssistant.sln ./
+COPY CodeAssistant/CodeAssistant/CodeAssistant.csproj CodeAssistant/CodeAssistant/
+
+# Restore dependencies
+RUN dotnet restore CodeAssistant/CodeAssistant.csproj
+
+# Copy everything else
+COPY CodeAssistant/ ./CodeAssistant/
+
+# Build
+WORKDIR /src/CodeAssistant/CodeAssistant
+RUN dotnet build -c Release -o /app/build
+
+# Stage 2: Publish
 FROM build AS publish
-RUN dotnet publish "CodeAssistant.csproj" -c Release -o /app/publish
+RUN dotnet publish -c Release -o /app/publish --no-restore
 
-FROM base AS final
+# Stage 3: Runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
 ENTRYPOINT ["dotnet", "CodeAssistant.dll"]
