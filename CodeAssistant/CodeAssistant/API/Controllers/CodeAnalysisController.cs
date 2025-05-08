@@ -1,5 +1,6 @@
 ﻿using CodeAssistant.API.DTOs;
 using CodeAssistant.API.Mappers;
+using CodeAssistant.Application.UseCases;
 using CodeAssistant.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,11 +10,11 @@ namespace CodeAssistant.API.Controllers
     [ApiController]
     public class CodeAnalysisController : ControllerBase
     {
-        private readonly ICodeAnalyzer _codeAnalyzer;
+        private readonly AnalyzeCodeUseCase _analyzeCodeUseCase;
 
-        public CodeAnalysisController(ICodeAnalyzer codeAnalyzer)
+        public CodeAnalysisController(AnalyzeCodeUseCase analyzeCodeUseCase)
         {
-            _codeAnalyzer = codeAnalyzer;
+            _analyzeCodeUseCase = analyzeCodeUseCase;
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace CodeAssistant.API.Controllers
             }
 
             var codeSnippet = AnalyzeCodeMapper.ToModel(request);
-            var errors = _codeAnalyzer.Analyze(codeSnippet);
+            var errors = await _analyzeCodeUseCase.ExecuteAsync(codeSnippet);
             var response = AnalyzeCodeMapper.ToDto(errors);
             
             return Ok(response);

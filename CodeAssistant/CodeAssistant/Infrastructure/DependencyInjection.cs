@@ -1,4 +1,5 @@
-﻿using CodeAssistant.Domain.Interfaces;
+﻿using CodeAssistant.Application.UseCases;
+using CodeAssistant.Domain.Interfaces;
 using CodeAssistant.Infrastructure.Mock;
 
 namespace CodeAssistant.Infrastructure
@@ -7,6 +8,7 @@ namespace CodeAssistant.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
+            services.AddScoped<AnalyzeCodeUseCase>();
             services.AddScoped<ICodeAnalyzer, MockCodeAnalyzer>();
             return services;
         }

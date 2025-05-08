@@ -28,9 +28,9 @@ namespace CodeAssistant.Application.UseCases
         /// <returns>
         /// A read-only collection of <see cref="CodeError"/> representing the issues found in the code.
         /// </returns>
-        public IReadOnlyCollection<CodeError> Execute(CodeSnippet snippet)
+        public async Task<IReadOnlyCollection<CodeError>> ExecuteAsync(CodeSnippet snippet)
         {
-            return _codeAnalyzer.Analyze(snippet);
+            return await _codeAnalyzer.AnalyzeAsync(snippet);
         }
     }
 }

@@ -9,6 +9,6 @@ namespace CodeAssistant.Domain.Interfaces
         /// </summary>
         /// <param name="codeSnippet">Code snippet to be analyzed</param>
         /// <returns>A collection of <see cref="CodeError"/> errors</returns>
-        IReadOnlyCollection<CodeError> Analyze(CodeSnippet codeSnippet);
+        Task<IReadOnlyCollection<CodeError>> AnalyzeAsync(CodeSnippet codeSnippet);
     }
 }
