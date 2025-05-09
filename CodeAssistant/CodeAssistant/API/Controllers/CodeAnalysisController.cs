@@ -1,7 +1,7 @@
 ﻿using CodeAssistant.API.DTOs;
 using CodeAssistant.API.Mappers;
 using CodeAssistant.Application.UseCases;
-using CodeAssistant.Domain.Interfaces;
+using CodeAssistant.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeAssistant.API.Controllers
@@ -19,10 +19,11 @@ namespace CodeAssistant.API.Controllers
 
         /// <summary>
         /// Analyzes the provided code snippet for errors.
+        /// Accepts json.
         /// </summary>
         /// <param name="request">The request containing the code to analyze.</param>
         /// <returns>A response containing the list of errors found in the code.</returns>
-        [HttpPost("analyze")]
+        [HttpPost("analyze/json")]
         public async Task<ActionResult<AnalyzeCodeResponseDto>> AnalyzeCodeAsync([FromBody] AnalyzeCodeRequestDto request)
         {
             if (request == null)
@@ -34,6 +35,27 @@ namespace CodeAssistant.API.Controllers
             var errors = await _analyzeCodeUseCase.ExecuteAsync(codeSnippet);
             var response = AnalyzeCodeMapper.ToDto(errors);
             
+            return Ok(response);
+        }
+        /// <summary>
+        /// Analyzes the provided code snippet for errors.
+        /// Accepts plain text
+        /// </summary>
+        /// <param name="code">The string containing the code to analyze.</param>
+        /// <returns>A response containing the list of errors found in the code.</returns>
+        [HttpPost("analyze/plain")]
+        [Consumes("text/plain; charset=UTF-8")]
+        public async Task<ActionResult<AnalyzeCodeResponseDto>> AnalyzeCodeAsync([FromBody] string code)
+        {
+            if (code == null)
+            {
+                return BadRequest("Invalid request data.");
+            }
+
+            var codeSnippet = new CodeSnippet(code);
+            var errors = await _analyzeCodeUseCase.ExecuteAsync(codeSnippet);
+            var response = AnalyzeCodeMapper.ToDto(errors);
+
             return Ok(response);
         }
     }
