@@ -4,45 +4,47 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using System.Text.Json.Serialization;
 using CodeAssistant.API.Formatters;
 
+// Create a new web application builder
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add MVC controllers and customize JSON serialization
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
+        // Serialize enums as strings for readability and frontend compatibility
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
-// Add text formatter
+// Add a custom input formatter to support plain text input (for raw code snippets)
 builder.Services.AddControllers(options =>
 {
     options.InputFormatters.Insert(0, new PlainTextInputFormatter());
 });
 
-// Add CORS policy
-
+// Configure CORS to allow unrestricted access (for development or public API)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
     {
-        policy
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader();
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
     });
 });
 
-// Swagger/OpenAPI config
+// Register Swagger/OpenAPI for API documentation
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Register infrastructure services
 builder.Services.AddInfrastructure();
 
 var app = builder.Build();
 
-// Use CORS middleware
+// Enable CORS
 app.UseCors("AllowAll");
 
-// Configure the HTTP request pipeline.
+// Enable Swagger UI in development
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -53,6 +55,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+// Map HTTP routes to controllers
 app.MapControllers();
 
 app.Run();
