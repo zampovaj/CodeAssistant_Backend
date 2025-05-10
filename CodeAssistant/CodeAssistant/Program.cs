@@ -1,6 +1,8 @@
 
 using CodeAssistant.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using System.Text.Json.Serialization;
+using CodeAssistant.API.Formatters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,12 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
+
+// Add text formatter
+builder.Services.AddControllers(options =>
+{
+    options.InputFormatters.Insert(0, new PlainTextInputFormatter());
+});
 
 // Add CORS policy
 
