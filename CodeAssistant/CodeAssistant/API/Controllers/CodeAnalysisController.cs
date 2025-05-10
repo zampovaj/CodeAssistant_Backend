@@ -44,7 +44,6 @@ namespace CodeAssistant.API.Controllers
         /// <param name="code">The string containing the code to analyze.</param>
         /// <returns>A response containing the list of errors found in the code.</returns>
         [HttpPost("analyze/plain")]
-        [Consumes("text/plain; charset=UTF-8")]
         public async Task<ActionResult<AnalyzeCodeResponseDto>> AnalyzeCodeAsync([FromBody] string code)
         {
             if (code == null)
