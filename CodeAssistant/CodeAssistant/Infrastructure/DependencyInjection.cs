@@ -1,7 +1,6 @@
 ﻿using CodeAssistant.Application.UseCases;
 using CodeAssistant.Domain.Interfaces;
 using CodeAssistant.Infrastructure.Helpers;
-using CodeAssistant.Infrastructure.Mock;
 using CodeAssistant.Infrastructure.Services;
 
 namespace CodeAssistant.Infrastructure
