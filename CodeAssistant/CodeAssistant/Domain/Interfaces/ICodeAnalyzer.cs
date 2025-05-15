@@ -1,4 +1,5 @@
 ﻿using CodeAssistant.Domain.Models;
+using Microsoft.CodeAnalysis;
 
 namespace CodeAssistant.Domain.Interfaces
 {
@@ -9,6 +10,6 @@ namespace CodeAssistant.Domain.Interfaces
         /// </summary>
         /// <param name="codeSnippet">Code snippet to be analyzed</param>
         /// <returns>A collection of <see cref="CodeError"/> errors</returns>
-        Task<IReadOnlyCollection<CodeError>> AnalyzeAsync(CodeSnippet codeSnippet);
+        Task<IReadOnlyCollection<CodeError>> AnalyzeAsync(Compilation compilation);
     }
 }

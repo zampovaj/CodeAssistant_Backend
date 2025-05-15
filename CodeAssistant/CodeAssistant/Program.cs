@@ -3,6 +3,11 @@ using CodeAssistant.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using System.Text.Json.Serialization;
 using CodeAssistant.API.Formatters;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.MSBuild;
+using Microsoft.Build.Locator;
+
+MSBuildLocator.RegisterDefaults();
 
 // Create a new web application builder
 var builder = WebApplication.CreateBuilder(args);

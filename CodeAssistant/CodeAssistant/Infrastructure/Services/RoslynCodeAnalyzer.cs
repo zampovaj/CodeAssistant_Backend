@@ -1,6 +1,7 @@
 ﻿using CodeAssistant.Domain.Interfaces;
 using CodeAssistant.Domain.Models;
 using CodeAssistant.Infrastructure.Helpers;
+using Microsoft.CodeAnalysis;
 
 namespace CodeAssistant.Infrastructure.Services
 {
@@ -30,11 +31,17 @@ namespace CodeAssistant.Infrastructure.Services
             _diagnosticsMapper = diagnosticsMapper;
         }
 
-        /// <inheritdoc />
-        public Task<IReadOnlyCollection<CodeError>> AnalyzeAsync(CodeSnippet codeSnippet)
+        ///// <inheritdoc />
+        //public Task<IReadOnlyCollection<CodeError>> AnalyzeAsync(CodeSnippet codeSnippet)
+        //{
+        //    var syntaxTree = _syntaxParser.Parse(codeSnippet.Code);
+        //    var compilation = _compilationBuilder.Build(syntaxTree);
+        //    var diagnostics = compilation.GetDiagnostics();
+        //    var codeErrors = _diagnosticsMapper.Map(diagnostics);
+        //    return Task.FromResult(codeErrors);
+        //}
+        public Task<IReadOnlyCollection<CodeError>> AnalyzeAsync(Compilation compilation)
         {
-            var syntaxTree = _syntaxParser.Parse(codeSnippet.Code);
-            var compilation = _compilationBuilder.Build(syntaxTree);
             var diagnostics = compilation.GetDiagnostics();
             var codeErrors = _diagnosticsMapper.Map(diagnostics);
             return Task.FromResult(codeErrors);
