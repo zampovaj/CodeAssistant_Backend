@@ -1,6 +1,8 @@
 ﻿using CodeAssistant.Domain.Interfaces;
 using CodeAssistant.Domain.Models;
+using Microsoft.CodeAnalysis;
 using System;
+using CodeAssistant.Application.Interfaces;
 
 namespace CodeAssistant.Application.UseCases
 {
@@ -9,16 +11,18 @@ namespace CodeAssistant.Application.UseCases
     /// </summary>
     public class AnalyzeCodeUseCase
     {
-        private readonly ICodeAnalyzer _codeAnalyzer;
+        private readonly ICodeCompilationBuilderService _codeCompilationBuilder;
+        private readonly ICodeAnalyzer _analyzer;
         /// <summary>
         /// Initializes a new instance of the <see cref="AnalyzeCodeUseCase"/> class.
         /// </summary>
         /// <param name="codeAnalyzer">
         /// The code analyzer implementation used to process code and detect errors.
         /// </param>
-        public AnalyzeCodeUseCase(ICodeAnalyzer codeAnalyzer)
+        public AnalyzeCodeUseCase(ICodeCompilationBuilderService codeCompilationBuilder, ICodeAnalyzer analyzer)
         {
-            _codeAnalyzer = codeAnalyzer;
+            _codeCompilationBuilder = codeCompilationBuilder;
+            _analyzer = analyzer;
         }
 
         /// <summary>
@@ -28,9 +32,10 @@ namespace CodeAssistant.Application.UseCases
         /// <returns>
         /// A read-only collection of <see cref="CodeError"/> representing the issues found in the code.
         /// </returns>
-        public async Task<IReadOnlyCollection<CodeError>> ExecuteAsync(CodeSnippet snippet)
+        public async Task<IReadOnlyCollection<CodeError>> ExecuteAsync(CodeSnippet codeSnippet)
         {
-            return await _codeAnalyzer.AnalyzeAsync(snippet);
+            var compilation = await _codeCompilationBuilder.CreateCompilationAsync(codeSnippet);
+            return await _analyzer.AnalyzeAsync(compilation);
         }
     }
 }

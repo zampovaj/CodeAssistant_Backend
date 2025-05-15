@@ -1,4 +1,4 @@
-﻿namespace CodeAssistant.Domain.Models
+﻿namespace CodeAssistant.API.DTOs
 {
     /// <summary>
     /// Represents the severity level of a code analysis issue.
@@ -21,11 +21,10 @@
         Error
     }
 
-
     /// <summary>
     /// Represents a single issue (error, warning, or info) found in the source code.
     /// </summary>
-    public class CodeError
+    public class CodeErrorDto
     {
         /// <summary>
         /// The path to the error file.
@@ -52,27 +51,14 @@
         public ErrorType Type { get; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="CodeError"/>.
+        /// Initializes a new instance of <see cref="CodeErrorDto"/>.
         /// </summary>
         /// <param name="line">The line number where the issue occurred. Must be > 0.</param>
         /// <param name="message">A description of the issue.</param>
         /// <param name="code">The identifier of the issue.</param>
         /// <param name="type">The severity of the issue.</param>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown if line is less than 1.</exception>
-        /// <exception cref="ArgumentNullException">Thrown if message or code is null or whitespace.</exception>
-        /// <exception cref="ArgumentException">Thrown if the error type is not a defined value.</exception>
-        public CodeError(string path, int line, string message, string code, ErrorType type)
+        public CodeErrorDto(string path, int line, string message, string code, ErrorType type)
         {
-            if (string.IsNullOrWhiteSpace(path))
-                throw new ArgumentNullException(nameof(path), "Path cannot be empty.");
-            if (line < 1)
-                throw new ArgumentOutOfRangeException(nameof(line), "Line number must be greater than 0");
-            if (string.IsNullOrWhiteSpace(message))
-                throw new ArgumentNullException(nameof(message));
-            if (string.IsNullOrWhiteSpace(code))
-                throw new ArgumentNullException(nameof(code), "Code cannot be empty.");
-            if (!Enum.IsDefined(typeof(ErrorType), type))
-                throw new ArgumentException("Type has to be valid", nameof(type));
             Path = path;
             Line = line;
             Message = message;

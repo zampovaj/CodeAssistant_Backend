@@ -22,6 +22,7 @@ namespace CodeAssistant.Infrastructure.Helpers
             return diagnostics
                 .Where(d => d.Location != Location.None && d.Location.IsInSource)
                 .Select(d => new CodeError(
+                    path: d.Location.SourceTree.FilePath.ToString(),
                     line: d.Location.GetLineSpan().StartLinePosition.Line + 1,
                     message: d.GetMessage(),
                     code: d.Id,

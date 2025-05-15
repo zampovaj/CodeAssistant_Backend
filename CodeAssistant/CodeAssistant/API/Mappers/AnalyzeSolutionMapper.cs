@@ -10,7 +10,7 @@ namespace CodeAssistant.API.Mappers
             IReadOnlyCollection<ProjectDto> projects = new List<ProjectDto>();
             foreach (var project in solution.Projects)
             {
-                projects.Append(new ProjectDto(project.Name, project.Errors.Select(e => new CodeErrorDto(e.Line, e.Message, e.Code, (DTOs.ErrorType)e.Type)).ToList()));
+                projects.Append(new ProjectDto(project.Name, project.Errors.Select(e => new CodeErrorDto(e.Path, e.Line, e.Message, e.Code, (DTOs.ErrorType)e.Type)).ToList()));
             }
             return new AnalyzeSolutionResponseDto(projects);
 
