@@ -12,6 +12,7 @@ MSBuildLocator.RegisterDefaults();
 // Create a new web application builder
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add MVC controllers and customize JSON serialization
 builder.Services.AddControllers()
     .AddJsonOptions(options =>

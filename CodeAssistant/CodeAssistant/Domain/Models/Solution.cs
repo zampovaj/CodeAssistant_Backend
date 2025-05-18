@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using System.Text;
 
 namespace CodeAssistant.Domain.Models
 {
@@ -7,6 +8,15 @@ namespace CodeAssistant.Domain.Models
         private List<Project> _projects;
         public IReadOnlyCollection<Project> Projects { get { return _projects; } }
 
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var project in _projects)
+            {
+                sb.AppendLine(project.ProjectCompilation.AssemblyName);
+            }
+            return sb.ToString();
+        }
 
         public void AddProject(Project project)
         {

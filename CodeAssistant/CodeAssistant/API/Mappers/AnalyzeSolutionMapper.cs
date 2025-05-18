@@ -15,5 +15,9 @@ namespace CodeAssistant.API.Mappers
             return new AnalyzeSolutionResponseDto(projects);
 
         }
+        public static SolutionReference ToModel(string solutionPath)
+        {
+            return new SolutionReference(solutionPath);
+        }
     }
 }

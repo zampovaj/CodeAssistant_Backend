@@ -18,15 +18,19 @@ namespace CodeAssistant.Infrastructure.Helpers
         {
             if (diagnostics == null)
                 throw new ArgumentNullException(nameof(diagnostics));
-
             return diagnostics
                 .Where(d => d.Location != Location.None && d.Location.IsInSource)
-                .Select(d => new CodeError(
-                    path: d.Location.SourceTree.FilePath.ToString(),
-                    line: d.Location.GetLineSpan().StartLinePosition.Line + 1,
-                    message: d.GetMessage(),
-                    code: d.Id,
-                    type: MapSeverityToErrorType(d.Severity)))
+                .Select(d => {
+                    var pathString = d.Location.SourceTree?.FilePath;
+                    if (string.IsNullOrEmpty(pathString)) pathString = "InMemory.cs";
+
+                    return new CodeError(
+                        path: pathString,
+                        line: d.Location.GetLineSpan().StartLinePosition.Line + 1,
+                        message: d.GetMessage(),
+                        code: d.Id,
+                        type: MapSeverityToErrorType(d.Severity));
+                })
                 .ToList();
         }
 

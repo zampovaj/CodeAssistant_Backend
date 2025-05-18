@@ -1,5 +1,7 @@
-﻿using CodeAssistant.Application.UseCases;
+﻿using CodeAssistant.Application.Interfaces;
+using CodeAssistant.Application.UseCases;
 using CodeAssistant.Domain.Interfaces;
+using CodeAssistant.Infrastructure.ApplicationServices;
 using CodeAssistant.Infrastructure.Helpers;
 using CodeAssistant.Infrastructure.Services;
 
@@ -18,10 +20,17 @@ namespace CodeAssistant.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
             services.AddScoped<AnalyzeCodeUseCase>();
+            services.AddScoped<AnalyzeSolutionUseCase>();
             services.AddScoped<ISyntaxParser, SyntaxParser>();
             services.AddScoped<ICompilationBuilder, CompilationBuilder>();
             services.AddScoped<IDiagnosticsMapper, DiagnosticsMapper>();
             services.AddScoped<ICodeAnalyzer, RoslynCodeAnalyzer>();
+            services.AddScoped<ISolutionAnalyzer, RoslynSolutionAnalyzer>();
+            services.AddScoped<IZipHandler, ZipHandler>();
+            services.AddScoped<IZipExtractor, ZipExtractor>();
+            services.AddScoped<ISolutionFinder, SolutionFinder>();
+            services.AddScoped<ICodeCompilationBuilderService, CodeCompilationBuilderService>();
+            services.AddScoped<ISolutionBuilderService, SolutionMSBuilderService>();
             return services;
         }
     }
