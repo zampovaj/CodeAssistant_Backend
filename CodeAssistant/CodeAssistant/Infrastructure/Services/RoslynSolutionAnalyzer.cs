@@ -9,7 +9,7 @@ namespace CodeAssistant.Infrastructure.Services
     public class RoslynSolutionAnalyzer : ISolutionAnalyzer
     {
         private readonly ICodeAnalyzer _codeAnalyzer;
-
+        
         public RoslynSolutionAnalyzer(ICodeAnalyzer codeAnalyzer)
         {
             _codeAnalyzer = codeAnalyzer;

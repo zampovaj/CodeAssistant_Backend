@@ -6,12 +6,13 @@ using CodeAssistant.API.Formatters;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.MSBuild;
 using Microsoft.Build.Locator;
+using CodeAssistant.Infrastructure.ApplicationServices;
 
-MSBuildLocator.RegisterDefaults();
 
 // Create a new web application builder
 var builder = WebApplication.CreateBuilder(args);
 
+MSBuildLocator.RegisterDefaults();
 
 // Add MVC controllers and customize JSON serialization
 builder.Services.AddControllers()
