@@ -8,6 +8,11 @@ namespace CodeAssistant.Infrastructure.Helpers
     /// </summary>
     public class DiagnosticsMapper : IDiagnosticsMapper
     {
+        private IPathTrimmer _pathTrimmer;
+        public DiagnosticsMapper(IPathTrimmer pathTrimmer)
+        {
+            _pathTrimmer = pathTrimmer;
+        }
         /// <summary>
         /// Maps a collection of <see cref="Diagnostic"/> objects to a read-only collection of <see cref="CodeError"/> objects.
         /// </summary>
@@ -23,6 +28,7 @@ namespace CodeAssistant.Infrastructure.Helpers
                 .Select(d => {
                     var pathString = d.Location.SourceTree?.FilePath;
                     if (string.IsNullOrEmpty(pathString)) pathString = "InMemory.cs";
+                    else pathString = _pathTrimmer.TrimPath(pathString);
 
                     return new CodeError(
                         path: pathString,

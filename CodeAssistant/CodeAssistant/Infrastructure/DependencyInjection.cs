@@ -31,6 +31,7 @@ namespace CodeAssistant.Infrastructure
             services.AddScoped<ISolutionFinder, SolutionFinder>();
             services.AddScoped<ICodeCompilationBuilderService, CodeCompilationBuilderService>();
             services.AddScoped<ISolutionBuilderService, SolutionMSBuilderService>();
+            services.AddScoped<IPathTrimmer, PathTrimmer>();
             return services;
         }
     }
