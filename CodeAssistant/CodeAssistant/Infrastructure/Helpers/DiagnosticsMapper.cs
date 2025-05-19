@@ -19,7 +19,7 @@ namespace CodeAssistant.Infrastructure.Helpers
             if (diagnostics == null)
                 throw new ArgumentNullException(nameof(diagnostics));
             return diagnostics
-                .Where(d => d.Location != Location.None && d.Location.IsInSource)
+                .Where(d => d.Location != Location.None && d.Location.IsInSource && d.Severity != DiagnosticSeverity.Hidden)
                 .Select(d => {
                     var pathString = d.Location.SourceTree?.FilePath;
                     if (string.IsNullOrEmpty(pathString)) pathString = "InMemory.cs";
@@ -44,6 +44,7 @@ namespace CodeAssistant.Infrastructure.Helpers
         {
             return severity switch
             {
+                DiagnosticSeverity.Hidden => ErrorType.Hidden,
                 DiagnosticSeverity.Info => ErrorType.Info,
                 DiagnosticSeverity.Warning => ErrorType.Warning,
                 DiagnosticSeverity.Error => ErrorType.Error,

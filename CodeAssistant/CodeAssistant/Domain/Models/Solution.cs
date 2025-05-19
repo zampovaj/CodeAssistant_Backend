@@ -5,7 +5,7 @@ namespace CodeAssistant.Domain.Models
 {
     public class Solution
     {
-        private List<Project> _projects;
+        private List<Project> _projects = new List<Project>();
         public IReadOnlyCollection<Project> Projects { get { return _projects; } }
 
         public override string ToString()

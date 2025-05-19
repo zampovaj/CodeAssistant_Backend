@@ -3,7 +3,7 @@
     public class AnalyzedSolution
     {
 
-        private List<AnalyzedProject> _projects;
+        private List<AnalyzedProject> _projects = new List<AnalyzedProject>();
         public IReadOnlyCollection<AnalyzedProject> Projects { get { return _projects; } }
 
         public void AddProject(AnalyzedProject project)

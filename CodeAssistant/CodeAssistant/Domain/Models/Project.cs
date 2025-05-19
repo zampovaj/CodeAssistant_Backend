@@ -1,11 +1,14 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis.CSharp;
+
+
+
 
 namespace CodeAssistant.Domain.Models
 {
     public class Project
     {
-        public Compilation ProjectCompilation { get; set; }
-        public Project(Compilation projectCompilation)
+        public CSharpCompilation ProjectCompilation { get; set; }
+        public Project(CSharpCompilation projectCompilation)
         {
             ProjectCompilation = projectCompilation;
         }

@@ -6,6 +6,10 @@
     public enum ErrorType
     {
         /// <summary>
+        /// Hidden.
+        /// </summary>
+        Hidden,
+        /// <summary>
         /// Informational message, not necessarily a problem.
         /// </summary>
         Info,
