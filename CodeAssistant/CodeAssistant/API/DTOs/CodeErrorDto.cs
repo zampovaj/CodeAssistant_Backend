@@ -8,6 +8,10 @@
         /// <summary>
         /// Informational message, not necessarily a problem.
         /// </summary>
+        Hidden,
+        /// <summary>
+        /// Informational message, not necessarily a problem.
+        /// </summary>
         Info,
 
         /// <summary>

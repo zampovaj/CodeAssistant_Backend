@@ -37,8 +37,9 @@ namespace CodeAssistant.API.Controllers
 
             var solution = AnalyzeSolutionMapper.ToModel(solutionPath);
             var result = await _analyzeSolutionUseCase.ExecuteAsync(solution);
+            var response = AnalyzeSolutionMapper.ToDto(result);
 
-            return Ok(result);
+            return Ok(response);
         }
 
 

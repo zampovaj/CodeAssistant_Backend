@@ -7,10 +7,10 @@ namespace CodeAssistant.API.Mappers
     {
         public static AnalyzeSolutionResponseDto ToDto(AnalyzedSolution solution)
         {
-            IReadOnlyCollection<ProjectDto> projects = new List<ProjectDto>();
+            var projects = new List<ProjectDto>();
             foreach (var project in solution.Projects)
             {
-                projects.Append(new ProjectDto(project.Name, project.Errors.Select(e => new CodeErrorDto(e.Path, e.Line, e.Message, e.Code, (DTOs.ErrorType)e.Type)).ToList()));
+                projects.Add(new ProjectDto(project.Name, project.Errors.Select(e => new CodeErrorDto(e.Path, e.Line, e.Message, e.Code, (DTOs.ErrorType)e.Type)).ToList()));
             }
             return new AnalyzeSolutionResponseDto(projects);
 

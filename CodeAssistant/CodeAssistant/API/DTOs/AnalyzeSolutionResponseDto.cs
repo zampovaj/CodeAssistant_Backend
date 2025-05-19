@@ -4,7 +4,7 @@ namespace CodeAssistant.API.DTOs
 {
     public class AnalyzeSolutionResponseDto
     {
-        public IReadOnlyCollection<ProjectDto> Projects { get; }
+        public IReadOnlyCollection<ProjectDto> Projects { get; } = new List<ProjectDto>();
         public AnalyzeSolutionResponseDto(IReadOnlyCollection<ProjectDto> projects)
         {
             Projects = projects;
