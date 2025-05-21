@@ -8,9 +8,9 @@
     public class AnalyzeCodeResponseDto
     {
         /// <summary>
-        /// A list of errors and warnings found in the analyzed code.
+        /// A list of <see cref="CodeErrorDto"/> errors and warnings found in the analyzed code.
         /// </summary>
-        public List<CodeErrorDto> Errors { get; } = new();
+        public List<CodeErrorDto> Errors { get; }
 
         /// <summary>
         /// Initializes a new instance of <see cref="AnalyzeCodeResponseDto"/>.

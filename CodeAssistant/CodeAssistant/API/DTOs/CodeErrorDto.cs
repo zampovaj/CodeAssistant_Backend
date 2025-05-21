@@ -6,7 +6,7 @@
     public enum ErrorType
     {
         /// <summary>
-        /// Informational message, not necessarily a problem.
+        /// Hidden message, ignored in the analysis.
         /// </summary>
         Hidden,
         /// <summary>
@@ -26,7 +26,7 @@
     }
 
     /// <summary>
-    /// Represents a single issue (error, warning, or info) found in the source code.
+    /// Represents DTO of a single issue (error, warning, or info) found in the source code.
     /// </summary>
     public class CodeErrorDto
     {
