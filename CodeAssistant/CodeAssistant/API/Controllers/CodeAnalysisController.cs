@@ -30,9 +30,10 @@ namespace CodeAssistant.API.Controllers
         /// </summary>
         /// <param name="request">The request object containing the code to analyze.</param>
         /// <returns>
-        /// A response DTO containing the list of detected errors and warnings.
+        /// A <see cref="AnalyzeCodeResponseDto"/> containing the list of detected errors and warnings.
         /// Returns 400 Bad Request if input is null.
         /// </returns>
+        /// <exception cref="Exception">If any exception ocurres, returns bad request containing the exception message</exception>
         [HttpPost("analyze/json")]
         public async Task<ActionResult<AnalyzeCodeResponseDto>> AnalyzeCodeAsync([FromBody] AnalyzeCodeRequestDto request)
         {
@@ -54,9 +55,10 @@ namespace CodeAssistant.API.Controllers
         /// </summary>
         /// <param name="code">The raw string of code to analyze.</param>
         /// <returns>
-        /// A response DTO containing the list of detected errors and warnings.
+        /// A <see cref="AnalyzeCodeResponseDto"/> containing the list of detected errors and warnings.
         /// Returns 400 Bad Request if input is null.
         /// </returns>
+        /// <exception cref="Exception">If any exception ocurres, returns bad request containing the exception message</exception>
         [HttpPost("analyze/plain")]
         public async Task<ActionResult<AnalyzeCodeResponseDto>> AnalyzeCodeAsync([FromBody] string code)
         {
