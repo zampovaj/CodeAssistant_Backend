@@ -15,6 +15,7 @@ namespace CodeAssistant.Infrastructure.Helpers
         }
         /// <summary>
         /// Maps a collection of <see cref="Diagnostic"/> objects to a read-only collection of <see cref="CodeError"/> objects.
+        /// If it is just a Code and not Solution diagnostics, maps <see cref="CodeError.Path"/> to "InMemory.cs"
         /// </summary>
         /// <param name="diagnostics">The diagnostics to map. Must not be null.</param>
         /// <returns>A read-only collection of <see cref="CodeError"/> objects representing the mapped diagnostics.</returns>
