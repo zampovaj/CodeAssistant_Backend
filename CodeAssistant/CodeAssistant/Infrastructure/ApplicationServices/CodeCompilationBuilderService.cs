@@ -31,7 +31,7 @@ namespace CodeAssistant.Infrastructure.ApplicationServices
         /// <returns>Task with compilation of submitted code snippet inside</returns>
         public async Task<Compilation> CreateCompilationAsync(CodeSnippet codeSnippet)
         {
-            var syntaxTree = _parser.Parse(codeSnippet.Code);
+            var syntaxTree =  _parser.Parse(codeSnippet.Code);
             return _compilationBuilder.Build(syntaxTree);
         }
     }
