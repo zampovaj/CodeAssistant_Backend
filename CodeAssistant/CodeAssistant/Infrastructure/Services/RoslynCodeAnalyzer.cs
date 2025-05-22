@@ -7,7 +7,7 @@ namespace CodeAssistant.Infrastructure.Services
 {
     /// <summary>
     /// Provides Roslyn-based code analysis functionality.
-    /// Parses code, compiles it, retrieves diagnostics, and maps them to domain-specific code errors.
+    /// Accepts compilation, retrieves diagnostics, and maps them to domain-specific code errors.
     /// </summary>
     public class RoslynCodeAnalyzer : ICodeAnalyzer
     {
@@ -21,6 +21,13 @@ namespace CodeAssistant.Infrastructure.Services
         {
             _diagnosticsMapper = diagnosticsMapper;
         }
+        /// <summary>
+        /// Retrives diagnostics information about accepted compilation using Roslyn.
+        /// Uses <see cref="IDiagnosticsMapper"/> to map the results to a collection of <see cref="CodeError"/>
+        /// Runs asynchronously.
+        /// </summary>
+        /// <param name="compilation">Compilation to be analyzed</param>
+        /// <returns>A <see cref="Task"/> containing a readonly collection of <see cref="CodeError"/>.</returns>
         public Task<IReadOnlyCollection<CodeError>> AnalyzeAsync(Compilation compilation)
         {
             var diagnostics = compilation.GetDiagnostics();
