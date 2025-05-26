@@ -11,6 +11,7 @@ namespace CodeAssistant.Application.Interfaces
         /// <summary>
         /// Accepts <see cref="CodeSnippet"/> and converts it to <see cref="Compilation"/>
         /// </summary>
+        /// <param name="codeSnippet">Code to be analyzed</param>
         public Task<Compilation> CreateCompilationAsync(CodeSnippet codeSnippet);
     }
 }
