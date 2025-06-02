@@ -1,7 +1,7 @@
 ﻿using CodeAssistant.Application.Interfaces;
 using CodeAssistant.Domain.Models;
-using CodeAssistant.Infrastructure.Helpers;
 using Microsoft.CodeAnalysis;
+using Analyzer.Core.Infrastructure.Helpers;
 
 namespace CodeAssistant.Infrastructure.ApplicationServices
 {

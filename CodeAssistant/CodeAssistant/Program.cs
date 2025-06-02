@@ -1,12 +1,8 @@
 
 using CodeAssistant.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using System.Text.Json.Serialization;
 using CodeAssistant.API.Formatters;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.MSBuild;
 using Microsoft.Build.Locator;
-using CodeAssistant.Infrastructure.ApplicationServices;
 
 
 // Create a new web application builder
@@ -45,6 +41,7 @@ builder.Services.AddSwaggerGen();
 
 // Register infrastructure services
 builder.Services.AddInfrastructure();
+Analyzer.Core.Infrastructure.DependencyInjection.AddAnalyzerCore(builder.Services);
 
 var app = builder.Build();
 

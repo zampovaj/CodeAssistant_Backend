@@ -8,6 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Domain\Interfaces\**" />
+    <Content Remove="Domain\Interfaces\**" />
+    <EmbeddedResource Remove="Domain\Interfaces\**" />
+    <None Remove="Domain\Interfaces\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Analyzer.Core" Version="1.0.1" />
     <PackageReference Include="Microsoft.Build" Version="17.14.8" ExcludeAssets="runtime" />
     <PackageReference Include="Microsoft.Build.Framework" Version="17.14.8" ExcludeAssets="runtime" />
     <PackageReference Include="Microsoft.Build.Locator" Version="1.9.1" />

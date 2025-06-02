@@ -1,8 +1,8 @@
-﻿using CodeAssistant.Domain.Interfaces;
-using CodeAssistant.Domain.Models;
+﻿using CodeAssistant.Domain.Models;
 using Microsoft.CodeAnalysis;
 using System;
 using CodeAssistant.Application.Interfaces;
+using Analyzer.Core.Domain.Interfaces;
 
 namespace CodeAssistant.Application.UseCases
 {
