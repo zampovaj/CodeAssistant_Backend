@@ -8,7 +8,8 @@ namespace CodeAssistant.Infrastructure.ApplicationServices
     {
         public Task<bool> IsWindowsOnlyAsync(string solutionPath)
         {
-            var csprojFiles = Directory.GetFiles(solutionPath, "*.csproj", SearchOption.AllDirectories);
+            var directoryPath = Path.GetDirectoryName(solutionPath);
+            var csprojFiles = Directory.GetFiles(directoryPath, "*.csproj", SearchOption.AllDirectories);
 
             foreach (var project in csprojFiles)
             {

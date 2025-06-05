@@ -1,6 +1,7 @@
 ﻿using CodeAssistant.API.DTOs;
 using CodeAssistant.Application.Interfaces;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace CodeAssistant.Infrastructure.ApplicationServices
 {
@@ -37,9 +38,16 @@ namespace CodeAssistant.Infrastructure.ApplicationServices
                 throw new Exception($"Windows backend returned {(int)response.StatusCode}: {await response.Content.ReadAsStringAsync()}");
 
             var json = await response.Content.ReadAsStringAsync();
+
+            if (string.IsNullOrEmpty(json))
+                throw new Exception("Windows server returned null response");
+
             return JsonSerializer.Deserialize<AnalyzeSolutionResponseDto>(json, new JsonSerializerOptions
             {
-                PropertyNameCaseInsensitive = true
+                PropertyNameCaseInsensitive = true,
+                Converters = { new
+                JsonStringEnumConverter(JsonNamingPolicy.CamelCase,
+                allowIntegerValues: false)}
             });
         }
     }

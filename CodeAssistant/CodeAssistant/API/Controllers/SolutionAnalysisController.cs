@@ -76,6 +76,7 @@ namespace CodeAssistant.API.Controllers
 
                 if (isWindowsOnly)
                 {
+                    Console.WriteLine("windows only");
                     try
                     {
                         var forwardedResponse = await _windowsAnalyzer.ForwardToWindowsAsync(fileBytes);
@@ -86,6 +87,7 @@ namespace CodeAssistant.API.Controllers
                         return StatusCode(502, $"Failed to analyze on Windows backend {ex.Message}");
                     }
                 }
+                Console.WriteLine("linux analysis");
 
                 var solution = AnalyzeSolutionMapper.ToModel(solutionPath);
                 var result = await _analyzeSolutionUseCase.ExecuteAsync(solution);
