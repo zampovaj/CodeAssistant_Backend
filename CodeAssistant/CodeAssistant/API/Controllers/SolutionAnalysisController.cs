@@ -6,6 +6,7 @@ using CodeAssistant.Application.Interfaces;
 using Microsoft.Build.Tasks;
 using System.Diagnostics;
 using Analyzer.Core.Application.Interfaces;
+using System.Reflection.Metadata.Ecma335;
 
 namespace CodeAssistant.API.Controllers
 {
@@ -16,18 +17,25 @@ namespace CodeAssistant.API.Controllers
     [ApiController]
     public class SolutionAnalysisController : ControllerBase
     {
-        private AnalyzeSolutionUseCase _analyzeSolutionUseCase;
+        private readonly AnalyzeSolutionUseCase _analyzeSolutionUseCase;
         private readonly IZipHandler _zipHandler;
+        private readonly IWindowsAnalyzerClient _windowsAnalyzer;
+        private readonly ITargetFrameworkDetector _frameworkDetector;
 
         /// <summary>
         /// Initializes a new instance of the <see cref=SolutionAnalysisController"/> class.
         /// </summary>
         /// <param name="analyzeSolutionUseCase">The use case responsible for analyzing solutions.</param>
         /// <param name="zipHandler">The service responsible for saving and etracting zip file</param>
-        public SolutionAnalysisController(AnalyzeSolutionUseCase analyzeSolutionUseCase, IZipHandler zipHandler)
+        public SolutionAnalysisController(AnalyzeSolutionUseCase analyzeSolutionUseCase,
+            IZipHandler zipHandler,
+            IWindowsAnalyzerClient windowsAnalyzer,
+            ITargetFrameworkDetector frameworkDetector)
         {
             _analyzeSolutionUseCase = analyzeSolutionUseCase;
             _zipHandler = zipHandler;
+            _windowsAnalyzer = windowsAnalyzer;
+            _frameworkDetector = frameworkDetector;
         }
 
         /// <summary>
@@ -61,6 +69,22 @@ namespace CodeAssistant.API.Controllers
                 if (solutionPath == null)
                 {
                     return BadRequest("No solution found in zip.");
+                }
+
+                // windows detection
+                bool isWindowsOnly = await _frameworkDetector.IsWindowsOnlyAsync(solutionPath);
+
+                if (isWindowsOnly)
+                {
+                    try
+                    {
+                        var forwardedResponse = await _windowsAnalyzer.ForwardToWindowsAsync(fileBytes);
+                        return Ok(forwardedResponse);
+                    }
+                    catch (Exception ex)
+                    {
+                        return StatusCode(502, $"Failed to analyze on Windows backend {ex.Message}");
+                    }
                 }
 
                 var solution = AnalyzeSolutionMapper.ToModel(solutionPath);

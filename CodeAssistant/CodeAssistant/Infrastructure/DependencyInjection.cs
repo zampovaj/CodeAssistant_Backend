@@ -19,7 +19,9 @@ namespace CodeAssistant.Infrastructure
         {
             services.AddScoped<AnalyzeCodeUseCase>();
             services.AddScoped<AnalyzeSolutionUseCase>();
+            services.AddScoped<ITargetFrameworkDetector, TargetFrameworkDetector>();
             services.AddScoped<ICodeCompilationBuilderService, CodeCompilationBuilderService>();
+            services.AddHttpClient<IWindowsAnalyzerClient, WindowsAnalyzerClient>();
             return services;
         }
     }
